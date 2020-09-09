@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-10" style="font-family:'Comic Sans MS'">
+        <div class="well">
+            Review Customer Feedback of MVC Invoice Master
+            <a class="btn btn-warning pull-right" id="btnShowFeedback">Show Feedback</a>
+        </div>
+        <div class="well" id="divData">
+            <table class="table table-bordered" id="tblData">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Feedback</th>
+                        <th>Date Posted</th>
+                    </tr>
+                </thead>
+                <tbody id="tblBody"></tbody>
+            </table>
+
+            <!--
+                Code to display success message when the registration is successful. The modal window will fade and close and will not be
+                closed when user press ESC or anywhere outside.
+            -->
+            <div class="modal fade" tabindex="-1" id="errorModal" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                &times;
+                            </button>
+                            <h4>Session Expired</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Login again</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" data-dismiss="modal" class="btn btn-success" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-danger collapse" id="divError">
+                <a id="linkClose" class="close" href="#">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+        <div id="divToken"></div>
+    </div>
+
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            if (sessionStorage.getItem('accessToken') == null) {
+                window.location.href = Login.html;
+            }
+            else {
+                $('#divToken').text(sessionStorage.getItem('accessToken'));
+            }
+
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+
+            $('#btnShowFeedback').click(function () {
+                $.ajax({
+                    url: 'api/feedback',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + sessionStorage.getItem('accessToken')
+                    },
+                    success: function (data) {
+                        $('#tblBody').empty();
+                        $.each(data, function (index, value) {
+                            var row = $('<tr><td>' + value.Name + '</td><td>'
+                                                    + value.Email + '</td><td>'
+                                                    + value.Phone + '</td><td>'
+                                                    + value.Feedback + '</td><td>'
+                                                    + value.Created + '</td></tr>');
+
+                            $('#tblBody').append(row);
+                        });
+                    },
+                    error: function (jqXHR) {
+                        if (jqXHR.status == '401') {
+                            $('#errorModal').modal('show');
+                        }
+                        else {
+                            $('#divErrorText').text(jqXHR.responseText);
+                            $('#divError').show('fade');
+                        }
+                    }
+                });
+
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

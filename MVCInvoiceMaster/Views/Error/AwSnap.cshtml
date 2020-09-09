@@ -1,0 +1,32 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Aw Snap!!";
+}
+
+<hr />
+
+<h1 class="alert-danger">Aw Snap! ... :(</h1>
+
+<div class="list-group-horizontal">
+    <div class="alert alert-info">
+        <b>Aw Sanp!! An unexpected error has occurred. Please contact the system administrator.</b>
+        Status Code: @Response.Status
+    </div>
+    <div class="alert alert-success">
+        @if (Model != null && HttpContext.Current.IsDebuggingEnabled)
+        {
+            <div>
+                <p>
+                    <b>Controller:</b> @Model.ControllerName<br />
+                    <b>Action:</b> @Model.ActionName<br />
+                    <b>Exception:</b> @Model.Exception.Message<br />
+                    <b>InnerException:</b>@Model.Exception.InnerException<br />
+                    <div class="overflow-auto pre-scrollable">
+                        <b>Stake Trace:</b>@Model.Exception.StackTrace<br />
+                    </div>
+                </p>
+            </div>
+        }
+    </div>
+</div>

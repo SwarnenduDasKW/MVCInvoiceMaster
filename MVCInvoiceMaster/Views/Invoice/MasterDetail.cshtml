@@ -1,0 +1,200 @@
+﻿@model IEnumerable<MVCInvoiceMaster.Models.Invoice>
+
+@{
+    ViewBag.Title = "Invoice Master Detail";
+
+}
+
+<script type="text/javascript">
+    $(function () {
+        $("#duedate").datepicker();
+
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            type:"GET",
+            url:"/Invoice/GetCountry",
+            data: {},
+            datatype: "json",
+            contenttype: "application/json",
+            success: function (data) {
+                        var s = '<option value="XX">Please Select a Country</option>';
+                        for(var i = 0;i<data.length;i++){
+                            s += '<option value="' + data[i].CountryCode + '">' + data[i].CountryName + '</option>';
+                     }
+                    $("#country").html(s);
+            }
+        });
+
+
+        $("#country").change(function () {
+
+            var ajaxOptions = {};
+
+            ajaxOptions.url = "/Invoice/GetState";
+            ajaxOptions.type = "GET";
+            ajaxOptions.datatype = "json";
+            ajaxOptions.contenttype = "application/json";
+            ajaxOptions.data = { CountryCode: $("#country").val() };
+            ajaxOptions.success = function (data) {
+                                    var s = '<option value="XX">Please Select a State</option>';
+                                    for (var i = 0; i < data.length; i++) {
+                                        s += '<option value="' + data[i].StateCode + '">' + data[i].StateName + '</option>';
+                                    }
+                                    $("#state").html(s);
+            };
+            ajaxOptions.error = function() { alert("There is an error making Ajax call")};
+
+            $.ajax(ajaxOptions);
+        });
+
+        $("form").submit(function () {
+            var s_invoiceno = $('#invoiceno').val();
+            var s_customerid = $('#customerid').val();
+            var s_country = $('#country').val();
+            var s_state = $('#state').val();
+            var s_advpymttax = $('#advpymttax').val();
+            var s_duedate = $('#duedate').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Invoice/CreateInvoice",
+                data: { invoiceno: s_invoiceno, customerid: s_customerid, country: s_country, state: s_state, advpymttax: s_advpymttax, duedate: s_duedate },
+                datatype: "json",
+                contenttype: "application/json",
+                success: function () {},
+                error: function () {}
+            });
+        });
+
+    });
+
+
+
+
+</script>
+
+<hr />
+
+<h2>Invoice Summary</h2>
+<p></p>
+
+@* THIS IS THE CODE FOR MODAL POPUP *@
+<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#invoiceModal">[+] Create Invoice</a>
+
+@*@using (Html.BeginForm("CreateInvoice","Invoice","POST"))
+{*@
+<form id="modalcreateiinvoice">
+    <div class="modal fade" id="invoiceModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Enter Invoice Details</h2>
+                    <button type="button" class="close" data-dismiss="modal">[×]</button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="invoiceno">Invoice #:</label>
+                        <input type="text" class="form-control" id="invoiceno" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="customerid">Customer ID:</label>
+                        <input type="text" class="form-control" id="customerid" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country:</label>
+                        <select class="form-control" id="country" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State:</label>
+                        <select class="form-control" id="state" required></select>
+                    </div>
+                    <div class="form-group">
+                        @* Allows only number upto two places of decimal *@
+                        <label for="advpymttax">Tax:</label>
+                        <input type="text" class="form-control" pattern="^\$?(([1-9]\d{0,2}(,\d{3})*)|0)?\.\d{1,2}$" placeholder="#0.00" id="advpymttax" />
+                    </div>
+                    <div class="form-group">
+                        <label for="duedate">Due Date:</label>
+                        <input type='text' class="form-control" id="duedate" placeholder="mm/dd/yyyy" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success" id="createinvoicemodal">Save</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+@* } *@
+
+
+@* CODE FOR MODAL POPUP ENDS *@
+<p></p>
+
+<table class="table table-sm table-striped table-bordered table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AdvancePaymentTax)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(model => item.InvoiceNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CustomerId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.AdvancePaymentTax)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.DueDate)
+            </td>
+            <td>
+                @Ajax.ActionLink("Invoice Details", "InvoiceDetailPartial", new { id = item.InvoiceId}, new AjaxOptions()
+                   {
+                       HttpMethod = "GET",
+                       UpdateTargetId = "divDetails",
+                       InsertionMode = InsertionMode.Replace
+
+                   })
+            </td>
+        </tr>
+    }
+</table>
+
+<br />
+<br />
+<h2>Invoice Details</h2>
+
+<div id="divDetails">
+</div>

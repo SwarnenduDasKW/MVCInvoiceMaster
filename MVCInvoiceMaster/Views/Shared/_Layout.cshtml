@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MVC Invoice Master</title>
+
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/glyphicons.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.extra.css" rel="stylesheet" />
+    <link href="~/Content/jquery.cleditor.css" rel="stylesheet" />
+    <link href="~/Content/pace-theme-minimal.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"  rel="stylesheet"/>
+    <link href="~/Content/themes/font-awesome.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.5.0.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="/scripts/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/pace.min.js"></script>
+
+
+  
+</head>
+
+<body>
+    <div class="container">
+       
+        <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;font-size:large;font-family:'Corbel';color:#e3f2fd">
+            <a class="navbar-brand" href="http://www.google.com" style="font-family:Algerian;font-size:x-large">
+                <img src="~/Content/Images/invoice.png" width="40" height="40" alt="Jhakkas Icon"/>
+                MVC Invoice Master
+            </a>
+           
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-link active">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="nav-link active">@Html.ActionLink("Customer", "Index", "Customers")</li>
+                    <li class="nav-link active">@Html.ActionLink("Invoice", "MasterDetail", "Invoice")</li>
+                    <li class="nav-link active">@Html.ActionLink("Provider", "Index", "Providers")</li>
+                    <li class="nav-link active">@Html.ActionLink("Sale", "Index", "Sale")</li>
+                    <li class="nav-link active">@Html.ActionLink("About", "About", "Home")</li>
+                    @*<li class="nav-link disabled">@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                </ul>
+            </div>
+        </nav>
+     </div>
+    <div class="container body-content">
+       
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - MVC Invoice Master</p>
+        </footer>
+    </div>
+
+</body>
+</html>

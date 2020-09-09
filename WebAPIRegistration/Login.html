@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+ 
+ </head>
+<body style="padding-top:20px;">
+    <div class="col-md-4" style="font-family:'Comic Sans MS'">
+        <div class="well">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <th colspan="2">
+                            Existing User Login
+                            <a class="btn btn-warning pull-right" href="Register.html" id="btnRegister">Register</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            User Name
+                        </td>
+                        <td>
+                            <input type="text" id="txtUserName" placeholder="User Name" class="form-control" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            <input type="password" id="txtPassword" placeholder="Password" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input class="btn btn-success" id="btnLogin" type="button" value="Login" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert-danger collapse" id="divError">
+                <a id="linkClose" class="close" href="#">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+
+   
+        <div aria-live="polite" aria-atomic="true" style="position: relative; min-height: 200px;display:none;">
+            <!-- Position it -->
+            <div style="position: absolute; top: 0; right: 0;">
+
+                <!-- Then put toasts within -->
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="mr-auto">Error and Warning</strong>
+                        <button id="linkClose" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="divErrorText" class="toast-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="divToken"></div>
+    </div>
+    
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="http://localhost:31351/Scripts/popper.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+           
+            if (sessionStorage.getItem('accessToken') == null) {
+               
+            }
+            else {
+                $('#divToken').text(sessionStorage.getItem('accessToken'));
+            }
+
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+            $('#btnLogin').click(function () {
+                $.ajax({
+
+                    url: '/token',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: {
+                        username: $('#txtUserName').val(),
+                        password: $('#txtPassword').val(),
+                        grant_type: 'password'
+                    },
+                    success: function (response) {
+                        sessionStorage.setItem('accessToken', response.access_token);
+                        window.location.href = "Review.html";
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                        //$('.toast').toast('show');
+                    }
+                });
+
+
+            });
+
+   
+        });
+
+    </script>
+
+</body>
+</html>

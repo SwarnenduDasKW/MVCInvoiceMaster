@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body style="padding-top:20px">
+    <div class="col-md-4" style="font-family:'Comic Sans MS'">
+        <div class="well">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="success">
+                        <th colspan="2">
+                            New User Registration
+                            <a class="btn btn-warning pull-right" href="Login.html" id="btnLogin">Login</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Email
+                        </td>
+                        <td>
+                            <input type="email" id="txtEmail" placeholder="Email" class="form-control"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            <input type="password" id="txtPassword" placeholder="Password" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Confirm Password
+                        </td>
+                        <td>
+                            <input type="password" id="txtConfPassword" placeholder="Confirm Password" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <input class="btn btn-success" id="btnRegister" type="button" value="Register"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- 
+                Code to display success message when the registration is successful. The modal window will fade and close and will not be 
+                closed when user press ESC or anywhere outside. 
+            -->
+            <div class="modal fade" tabindex="-1" id="successModal" data-keyboard="false" data-backdrop="static">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                &times;
+                            </button>
+                            <h4>Success</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Registration Successfull</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" data-dismiss="modal" class="btn btn-success" value="Close" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert-danger collapse" id="divError">
+                <a id="linkClose" class="close" href="#">&times;</a>
+                <div id="divErrorText"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#linkClose').click(function () {
+                $('#divError').hide('fade');
+            });
+            $('#btnRegister').click(function () {
+                $.ajax({
+
+                    url: 'api/account/register',
+                    method: 'POST',
+                    data: {
+                        email: $('#txtEmail').val(),
+                        password: $('#txtPassword').val(),
+                        confirmPassword: $('#txtConfPassword').val(),
+                    },
+                    success: function () {
+                        $('#successModal').modal('show');
+                    },
+                    error: function (jqXHR) {
+                        $('#divErrorText').text(jqXHR.responseText);
+                        $('#divError').show('fade');
+                    }
+                });
+
+                
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>

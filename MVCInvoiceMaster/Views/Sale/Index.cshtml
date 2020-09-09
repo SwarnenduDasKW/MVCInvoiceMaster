@@ -1,0 +1,54 @@
+﻿@model IEnumerable<MVCInvoiceMaster.Models.Sale>
+
+<hr />
+
+<h2>Sales Summary</h2>
+<p>
+    @Html.ActionLink("[+] Create New", "Create")
+</p>
+<table class="table table-sm table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesItem)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateSold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipToLoc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesItem)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateSold)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Quantity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipToLoc)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SalesId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SalesId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SalesId })
+        </td>
+    </tr>
+}
+
+</table>
