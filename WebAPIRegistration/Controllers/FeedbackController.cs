@@ -10,7 +10,7 @@ namespace WebAPIRegistration.Controllers
 {
     public class FeedbackController : ApiController
     {
-        [Authorize]
+        //[Authorize]
         public IEnumerable<ContactUs> Get()
         { 
             InvoiceMasterEntities db = new InvoiceMasterEntities();

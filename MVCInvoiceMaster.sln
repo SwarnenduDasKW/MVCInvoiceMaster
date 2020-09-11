@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCInvoiceMaster", "MVCInvo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceDBPersistence", "InvoiceDBPersistence\InvoiceDBPersistence.csproj", "{6BDFA373-BD68-487A-8A84-DB69F4C4FA61}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIRegistration", "WebAPIRegistration\WebAPIRegistration.csproj", "{C7676B24-E140-43C7-843E-96EDF1C6856D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6BDFA373-BD68-487A-8A84-DB69F4C4FA61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BDFA373-BD68-487A-8A84-DB69F4C4FA61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BDFA373-BD68-487A-8A84-DB69F4C4FA61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7676B24-E140-43C7-843E-96EDF1C6856D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7676B24-E140-43C7-843E-96EDF1C6856D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7676B24-E140-43C7-843E-96EDF1C6856D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7676B24-E140-43C7-843E-96EDF1C6856D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
